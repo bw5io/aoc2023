@@ -1,14 +1,17 @@
-def file_to_array(filename, return_int=False, return_matrix=False):
+def file_to_array(filename, return_int=False, return_matrix=False, allow_empty_line=True):
     output=[]
     openedfile=open(filename)
     flag=False
     while True:
         thisline = openedfile.readline().strip()
         if thisline=='':
-            if flag == True:
-                break
+            if allow_empty_line==True:
+                if flag == True:
+                    break
+                else:
+                    flag = True
             else:
-                flag = True
+                break
         if return_int==True and thisline.isnumeric():
             thisline=int(thisline)
             flag=False
