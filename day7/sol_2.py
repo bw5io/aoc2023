@@ -13,6 +13,7 @@ class Card:
 def check_card_type(card):
     card_count = dict(Counter(str(card)))
     joker_count = card_count["J"] if "J" in card_count.keys() else 0
+    # print(joker_count, card)
     card_count["J"]=0
     card_count_values=list(card_count.values())
     card_count_values.sort()
@@ -48,7 +49,7 @@ def compare_right_bigger_than_left(left: Card, right: Card):
         "A": 14,
         "K": 13,
         "Q": 12,
-        "J": 11,
+        "J": 1,
         "T": 10,
         "9": 9,
         "8": 8,
@@ -95,7 +96,5 @@ def sol_1(input_file):
     card_on_hand = parse(input_list)
     sorted_card_on_hand = sort_card_on_hand(card_on_hand)
     return sum([(i+1)*sorted_card_on_hand[i].bets for i in range(len(sorted_card_on_hand))])
-
-# check_card_type("33444")
 
 print(sol_1("data1.txt"))
