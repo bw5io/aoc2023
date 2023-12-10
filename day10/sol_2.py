@@ -1,7 +1,7 @@
 import aoc_lib
 import sys
+import time
 
-sys.setrecursionlimit(150000000)
 tiles = {
     "F": {"S", "E"},
     "-": {"E", "W"},
@@ -104,15 +104,18 @@ def sol_1(input_file):
     starting_point = find_start(matrix)
     boundaries=find_boundaries(matrix, starting_point)
     matrix[starting_point['position'][1]][starting_point['position'][0]]=starting_point["direction"]
-    print(boundaries)
-    c=detect(matrix, boundaries)
-    for y in c:
-        for x in y:
-            print(x, end='')
-        print("")
+    # c=detect(matrix, boundaries)
+    # for y in c:
+    #     for x in y:
+    #         print(x, end='')
+    #     print("")
     count_dot=0
     for y in matrix:
         count_dot+=y.count(".")
     return(count_dot)
 
+start=time.time()
 print(sol_1("data.txt"))
+end=time.time()
+print("The time of execution of above program is :",
+      (end-start) * 10**3, "ms")
