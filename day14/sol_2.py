@@ -105,36 +105,42 @@ def calculate_tilted_board(matrix):
 def sol_1(text_file):
     input_list = aoc_lib.file_to_array(text_file)
     matrix = parse(input_list)
-    print(matrix)
     for i in matrix:
         print("".join(i))
     outcome=[]
     to_be_checked=[]
     to_be_validated=[]
     pattern=[]
-    for i in range(100): 
+    i=0
+    while True: 
         matrix=one_round(matrix)
         current_outcome=calculate_tilted_board(matrix)
+        new_to_be_validated = []
         new_to_be_checked = []
+        break_flag = False
+        for this_round in to_be_validated:
+            if i==this_round["Tail"]+2*(this_round["Tail"]-this_round["Head"]+1):
+                pattern=this_round
+                break_flag=True
+                break
+            if current_outcome==outcome[i-2*(this_round["Tail"]-this_round["Head"]+1)]:
+                new_to_be_validated.append(this_round)
+        if break_flag == True:
+            break
+        to_be_validated = new_to_be_validated
         for this_round in to_be_checked:
             if i==this_round["Tail"]+(this_round["Tail"]-this_round["Head"]+1):
                 to_be_validated.append(this_round)
             elif current_outcome==outcome[i-(this_round["Tail"]-this_round["Head"]+1)]:
                 new_to_be_checked.append(this_round)
         to_be_checked = new_to_be_checked
-        new_to_be_validated = []
-        for this_round in to_be_validated:
-            if i==this_round["Tail"]+2*(this_round["Tail"]-this_round["Head"]+1):
-                pattern=this_round
-                break
-            if current_outcome==outcome[i-2*(this_round["Tail"]-this_round["Head"]+1)]:
-                new_to_be_validated.append(this_round)
-        to_be_validated = new_to_be_validated
         if current_outcome in outcome:
             to_be_checked.append({"Head": len(outcome) - 1 -outcome[::-1].index(current_outcome), "Tail":i-1})
         outcome.append(current_outcome)
-        print(i, to_be_checked, to_be_validated)
-    print(outcome, pattern)
-    return calculate_tilted_board(matrix)
-
+        i+=1
+    print(outcome, pattern, i)
+    length = pattern["Tail"]-pattern["Head"]+1
+    index_to_be = (1000000000-pattern["Tail"]-1) % length + pattern["Tail"]
+    return outcome[index_to_be]
 print(sol_1("test.txt"))
+print(sol_1("data.txt"))
