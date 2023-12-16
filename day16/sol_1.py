@@ -29,38 +29,41 @@ def ignite(matrix, final_matrix, pos_x=0, pos_y=0, direction='E'):
 
 def identify_next_direction(symbol, direction):
     next_directions = []
-    if symbol == '.':
-        next_directions.append(direction)
-    elif symbol =="\\":
-        if direction == "N":
-            next_directions.append("W")
-        elif direction == "W":
-            next_directions.append("N")
-        elif direction == "S":
-            next_directions.append("E")
-        elif direction == "E":
-            next_directions.append("S")
-    elif symbol == "/":
-        if direction == "N":
-            next_directions.append("E")
-        elif direction == "W":
-            next_directions.append("S")
-        elif direction == "S":
-            next_directions.append("W")
-        elif direction == "E":
-            next_directions.append("N")
-    elif symbol == "|":
-        if direction in ['S', 'N']:
+    match symbol:
+        case ".": 
             next_directions.append(direction)
-        elif direction in ['E', 'W']:
-            next_directions.append('S')
-            next_directions.append('N')
-    elif symbol == "-":
-        if direction in ['S', 'N']:
-            next_directions.append('E')
-            next_directions.append('W')
-        elif direction in ['E', 'W']:
-            next_directions.append(direction)
+        case "\\":
+            match direction:
+                case "N":
+                    next_directions.append("W")
+                case "W":
+                    next_directions.append("N")
+                case "S":
+                    next_directions.append("E")
+                case "E":
+                    next_directions.append("S")
+        case "/":
+            match direction:
+                case "N":
+                    next_directions.append("E")
+                case "W":
+                    next_directions.append("S")
+                case "S":
+                    next_directions.append("W")
+                case "E":
+                    next_directions.append("N")
+        case "|":
+            if direction in ['S', 'N']:
+                next_directions.append(direction)
+            elif direction in ['E', 'W']:
+                next_directions.append('S')
+                next_directions.append('N')
+        case "-":
+            if direction in ['S', 'N']:
+                next_directions.append('E')
+                next_directions.append('W')
+            elif direction in ['E', 'W']:
+                next_directions.append(direction)
     return next_directions
 
 def sol_1(text_file):
@@ -72,7 +75,6 @@ def sol_1(text_file):
         for _ in range(len(matrix[0])):
             final_matrix_row.append([])
         final_matrix.append(final_matrix_row)
-    print(final_matrix)
     final_matrix = ignite(matrix, final_matrix)
     count = 0
     for i in final_matrix:
@@ -85,4 +87,4 @@ def sol_1(text_file):
         print()
     return count
 
-print(sol_1("data.txt"))
+print(sol_1("test.txt"))
