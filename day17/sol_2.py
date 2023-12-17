@@ -1,5 +1,6 @@
 import aoc_lib
 import sys
+import datetime
 from dataclasses import dataclass
 sys.setrecursionlimit(10000000)
 direction_dict = {
@@ -92,4 +93,7 @@ def sol_1(text_file):
     answer = find_a_way(matrix, empty_matrix, 0,  0)
     return answer
 
+start_time = datetime.datetime.now()
 print(sol_1("data.txt"))
+end_time = datetime.datetime.now()
+print(end_time-start_time)
